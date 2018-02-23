@@ -1,0 +1,131 @@
+<style>
+  .variant-option {
+    margin-bottom: 1em;
+  }
+  .emailtrack {
+    width: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+    text-align: left;
+    margin-top: 1em;
+  }
+  .designtext {
+    width: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+    min-height: 100px;
+    text-align: left;
+    margin-bottom: 0;
+    margin-top: 1em;
+  }
+  .priceh2 {
+    font-family: europa;
+  }
+</style>
+
+<h2 class="priceh2">Starting from $280</h2>
+<form action="https://formspree.io/hobohm.business@gmail.com" id="extraformemail" method="post" name="extraformemail">
+  <div class="variant-option">
+    <div class="variant-select-wrapper">
+      <select name="color">
+        <option value="">
+          Select Color
+        </option>
+        <option value="Blue">
+          Blue
+        </option>
+        <option value="Black">
+          Black
+        </option>
+        <option value="Tan">
+          Tan
+        </option>
+        <option value="Light Brown">
+          Light Brown
+        </option>
+        <option value="Red">
+          Red
+        </option>
+        <option value="Brown">
+          Brown
+        </option>
+        <option value="Whiskey Brown">
+          Whiskey Brown
+        </option>
+        <option value="White">
+          White
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="variant-option">
+    <div class="variant-select-wrapper">
+      <select name="hardware">
+        <option value="">
+          Select Hardware
+        </option>
+        <option value="Silver">
+          Silver
+        </option>
+        <option value="Brass">
+          Brass
+        </option>
+        <option value="Gunmetal">
+          Gunmetal
+        </option>
+        <option value="Black">
+          Black
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="variant-option">
+    <div class="variant-select-wrapper">
+      <select name="lining">
+        <option value="">
+          Select Lining
+        </option>
+        <option value="Red">
+          Red
+        </option>
+        <option value="Black">
+          Black
+        </option>
+        <option value="Gold">
+          Gold
+        </option>
+        <option value="Gray">
+          Gray
+        </option>
+        <option value="Purple">
+          Purple
+        </option>
+        <option value="Quilted Blue">
+          Quilted Blue
+        </option>
+        <option value="Quilted Grey">
+          Quilted Grey
+        </option>
+      </select>
+    </div>
+  </div>
+  <input class="emailtrack" name="email" placeholder="Enter your email so we can contact you" type="text">
+  <input class="designtext" name="design" placeholder="Describe the design changes you'd like" type="text">
+</form>
+<script>
+  window.addEventListener("DOMContentLoaded", function() {
+    var submit = document.getElementsByClassName('sqs-add-to-cart-button-inner');
+    var form = $('#extraformemail');
+
+    for (var i=0; i<submit.length; i++) {
+      submit[i].addEventListener("click", function() {
+        $.ajax({
+          url: '//formspree.io/hobohm.business@gmail.com',
+          method: 'POST',
+          data: form.serialize(),
+          dataType: 'json'
+        });
+      });
+    }
+  });
+</script>

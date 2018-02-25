@@ -1,131 +1,199 @@
+<center><script>
+  (function(e){e.fn.ddslick=function(l){if(c[l]){return c[l].apply(this,Array.prototype.slice.call(arguments,1))}else{if(typeof l==="object"||!l){return c.init.apply(this,arguments)}else{e.error("Method "+l+" does not exists.")}}};var c={},d={data:[],keepJSONItemsOnTop:false,width:260,height:null,background:"#eee",selectText:"",defaultSelectedIndex:null,truncateDescription:true,imagePosition:"left",showSelectedHTML:true,clickOffToClose:true,embedCSS:true,onSelected:function(){}},i='<div class="dd-select"><input class="dd-selected-value" type="hidden" /><a class="dd-selected"></a><span class="dd-pointer dd-pointer-down"></span></div>',a='<ul class="dd-options"></ul>',b='<style id="css-ddslick" type="text/css">.dd-select{ border-radius:2px; border:solid 1px #ccc; position:relative; cursor:pointer;}.dd-desc { color:#aaa; display:block; overflow: hidden; font-weight:normal; line-height: 1.4em; }.dd-selected{ overflow:hidden; display:block; padding:10px; font-weight:bold;}.dd-pointer{ width:0; height:0; position:absolute; right:10px; top:50%; margin-top:-3px;}.dd-pointer-down{ border:solid 5px transparent; border-top:solid 5px #000; }.dd-pointer-up{border:solid 5px transparent !important; border-bottom:solid 5px #000 !important; margin-top:-8px;}.dd-options{ border:solid 1px #ccc; border-top:none; list-style:none; box-shadow:0px 1px 5px #ddd; display:none; position:absolute; z-index:2000; margin:0; padding:0;background:#fff; overflow:auto;}.dd-option{ padding:10px; display:block; border-bottom:solid 1px #ddd; overflow:hidden; text-decoration:none; color:#333; cursor:pointer;-webkit-transition: all 0.25s ease-in-out; -moz-transition: all 0.25s ease-in-out;-o-transition: all 0.25s ease-in-out;-ms-transition: all 0.25s ease-in-out; }.dd-options > li:last-child > .dd-option{ border-bottom:none;}.dd-option:hover{ background:#f3f3f3; color:#000;}.dd-selected-description-truncated { text-overflow: ellipsis; white-space:nowrap; }.dd-option-selected { background:#f6f6f6; }.dd-option-image, .dd-selected-image { vertical-align:middle; float:left; margin-right:5px; max-width:64px;}.dd-image-right { float:right; margin-right:15px; margin-left:5px;}.dd-container{ position:relative;}​ .dd-selected-text { font-weight:bold}​</style>';c.init=function(l){var l=e.extend({},d,l);if(e("#css-ddslick").length<=0&&l.embedCSS){e(b).appendTo("head")}return this.each(function(){var p=e(this),q=p.data("ddslick");if(!q){var n=[],o=l.data;p.find("option").each(function(){var w=e(this),v=w.data();n.push({text:e.trim(w.text()),value:w.val(),selected:w.is(":selected"),description:v.description,imageSrc:v.imagesrc})});if(l.keepJSONItemsOnTop){e.merge(l.data,n)}else{l.data=e.merge(n,l.data)}var m=p,s=e('<div id="'+p.attr("id")+'"></div>');p.replaceWith(s);p=s;p.addClass("dd-container").append(i).append(a);var n=p.find(".dd-select"),u=p.find(".dd-options");u.css({width:l.width});n.css({width:l.width,background:l.background});p.css({width:l.width});if(l.height!=null){u.css({height:l.height,overflow:"auto"})}e.each(l.data,function(v,w){if(w.selected){l.defaultSelectedIndex=v}u.append('<li><a class="dd-option">'+(w.value?' <input class="dd-option-value" type="hidden" value="'+w.value+'" />':"")+(w.imageSrc?' <img class="dd-option-image'+(l.imagePosition=="right"?" dd-image-right":"")+'" src="'+w.imageSrc+'" />':"")+(w.text?' <label class="dd-option-text">'+w.text+"</label>":"")+(w.description?' <small class="dd-option-description dd-desc">'+w.description+"</small>":"")+"</a></li>")});var t={settings:l,original:m,selectedIndex:-1,selectedItem:null,selectedData:null};p.data("ddslick",t);if(l.selectText.length>0&&l.defaultSelectedIndex==null){p.find(".dd-selected").html(l.selectText)}else{var r=(l.defaultSelectedIndex!=null&&l.defaultSelectedIndex>=0&&l.defaultSelectedIndex<l.data.length)?l.defaultSelectedIndex:0;j(p,r)}p.find(".dd-select").on("click.ddslick",function(){f(p)});p.find(".dd-option").on("click.ddslick",function(){j(p,e(this).closest("li").index())});if(l.clickOffToClose){u.addClass("dd-click-off-close");p.on("click.ddslick",function(v){v.stopPropagation()});e("body").on("click",function(){e(".dd-click-off-close").slideUp(50).siblings(".dd-select").find(".dd-pointer").removeClass("dd-pointer-up")})}}})};c.select=function(l){return this.each(function(){if(l.index!==undefined){j(e(this),l.index)}})};c.open=function(){return this.each(function(){var m=e(this),l=m.data("ddslick");if(l){f(m)}})};c.close=function(){return this.each(function(){var m=e(this),l=m.data("ddslick");if(l){k(m)}})};c.destroy=function(){return this.each(function(){var n=e(this),m=n.data("ddslick");if(m){var l=m.original;n.removeData("ddslick").unbind(".ddslick").replaceWith(l)}})};function j(q,s){var u=q.data("ddslick");var r=q.find(".dd-selected"),n=r.siblings(".dd-selected-value"),v=q.find(".dd-options"),l=r.siblings(".dd-pointer"),p=q.find(".dd-option").eq(s),m=p.closest("li"),o=u.settings,t=u.settings.data[s];q.find(".dd-option").removeClass("dd-option-selected");p.addClass("dd-option-selected");u.selectedIndex=s;u.selectedItem=m;u.selectedData=t;if(o.showSelectedHTML){r.html((t.imageSrc?'<img class="dd-selected-image'+(o.imagePosition=="right"?" dd-image-right":"")+'" src="'+t.imageSrc+'" />':"")+(t.text?'<label class="dd-selected-text">'+t.text+"</label>":"")+(t.description?'<small class="dd-selected-description dd-desc'+(o.truncateDescription?" dd-selected-description-truncated":"")+'" >'+t.description+"</small>":""))}else{r.html(t.text)}n.val(t.value);u.original.val(t.value);q.data("ddslick",u);k(q);g(q);if(typeof o.onSelected=="function"){o.onSelected.call(this,u)}}function f(p){var o=p.find(".dd-select"),m=o.siblings(".dd-options"),l=o.find(".dd-pointer"),n=m.is(":visible");e(".dd-click-off-close").not(m).slideUp(50);e(".dd-pointer").removeClass("dd-pointer-up");if(n){m.slideUp("fast");l.removeClass("dd-pointer-up")}else{m.slideDown("fast");l.addClass("dd-pointer-up")}h(p)}function k(l){l.find(".dd-options").slideUp(50);l.find(".dd-pointer").removeClass("dd-pointer-up").removeClass("dd-pointer-up")}function g(o){var n=o.find(".dd-select").css("height");var m=o.find(".dd-selected-description");var l=o.find(".dd-selected-image");if(m.length<=0&&l.length>0){o.find(".dd-selected-text").css("lineHeight",n)}}function h(l){l.find(".dd-option").each(function(){var p=e(this);var n=p.css("height");var o=p.find(".dd-option-description");var m=l.find(".dd-option-image");if(o.length<=0&&m.length>0){p.find(".dd-option-text").css("lineHeight",n)}})}})(jQuery);
+</script>
 <style>
   .variant-option {
     margin-bottom: 1em;
   }
+
   .emailtrack {
+    max-width: 600px;
     width: 100%;
     padding: 1em;
     box-sizing: border-box;
     text-align: left;
     margin-top: 1em;
   }
+
   .designtext {
+    max-width: 600px;
     width: 100%;
     padding: 1em;
-    box-sizing: border-box;
     min-height: 100px;
+    box-sizing: border-box;
     text-align: left;
     margin-bottom: 0;
     margin-top: 1em;
   }
+
   .priceh2 {
     font-family: europa;
   }
+  
+  .dd-option-image, .dd-selected-image {
+    height: 80px;
+    margin-right: 20px;
+    width: auto;
+  }
+  
+  .dd-selected, .dd-option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  
+  .descp {
+    margin-bottom: 30px;
+  }
 </style>
+  <h2><i>5 Simple Steps</i></h2>
+<p>
+Please select your basic choices from the drop-downs below to get started. Each drop-down menu has a thumbnail to give you an idea of what the choice looks like.
+</p>
+<p>
+  Please feel free to contact us with any questions! You may use the chat box in the bottom right corner of your screen that says 'Online' or you may <a href="https://www.independencebrothers.com/contact-us/" target="new">send us a message.</a>
+</p>
+<br><br>
 
-<h2 class="priceh2">Starting from $280</h2>
 <form action="https://formspree.io/hobohm.business@gmail.com" id="extraformemail" method="post" name="extraformemail">
+  <h2>1. Choose Your Leather Color</h2>
   <div class="variant-option">
     <div class="variant-select-wrapper">
-      <select name="color">
-        <option value="">
-          Select Color
-        </option>
-        <option value="Blue">
+      <select class="ddslick" name="color">
+        <option value="Blue" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319c5fe4966b0b6edfe3bd/5a319c70f9619ac59d352c77/1513201818435/blue_leather.jpg?format=300w">
           Blue
         </option>
-        <option value="Black">
-          Black
+        <option selected value="Black" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319c5fe4966b0b6edfe3bd/5a319c7024a694086ed9376b/1513201812052/black_leather.jpg?format=300w">
+          Black (Standard)
         </option>
-        <option value="Tan">
+        <option value="Tan" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319c5fe4966b0b6edfe3bd/5a319d2e8165f5518ec6f158/1513201837136/tan_leather.jpg?format=300w">
           Tan
         </option>
-        <option value="Light Brown">
+        <option value="Light Brown" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319c5fe4966b0b6edfe3bd/5a319ccb0d9297be3bc34bf2/1513201847236/light_brown_leather.jpg?format=300w">
           Light Brown
         </option>
-        <option value="Red">
+        <option value="Red" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319c5fe4966b0b6edfe3bd/5a319d2af9619ac59d355ee4/1515001608416/red_leather.jpg?format=300w">
           Red
         </option>
-        <option value="Brown">
+        <option value="Brown" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319c5fe4966b0b6edfe3bd/5a319c7024a694086ed9376b/1513201812052/black_leather.jpg?format=300w">
           Brown
         </option>
-        <option value="Whiskey Brown">
+        <option value="Whiskey Brown" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319c5fe4966b0b6edfe3bd/5a319cb5e2c4831c5bd7d298/1513201825107/brown_leather.jpg?format=300w">
           Whiskey Brown
         </option>
-        <option value="White">
+        <option value="White" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319c5fe4966b0b6edfe3bd/5a6f40ee085229bc0ec2458e/1517240578354/white.jpg?format=300w">
           White
         </option>
       </select>
     </div>
   </div>
+  <br>
+  <h2>2. Choose Your Type of Hardware</h2>
+  <p class="descp">
+    All of our jackets are made with highly durable, industry tested YKK brand hardware from Japan.
+  </p>
   <div class="variant-option">
     <div class="variant-select-wrapper">
-      <select name="hardware">
-        <option value="">
-          Select Hardware
-        </option>
-        <option value="Silver">
+      <select class="ddslick" name="hardware">
+        <option value="Silver" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319fc8f9619ac59d3630b7/5a4e9c8bc8302547a550409d/1515101461585/silver_zipper_ykk.jpg?format=300w">
           Silver
         </option>
-        <option value="Brass">
+        <option value="Brass" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319fc8f9619ac59d3630b7/5a4e9c85e4966b7a76239800/1516816305387/brass_zipper_ykk.jpg?format=300w">
           Brass
         </option>
-        <option value="Gunmetal">
-          Gunmetal
+        <option selected="selected" value="Gunmetal" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319fc8f9619ac59d3630b7/5a4e9c8a9140b73fc579c4d3/1516816305352/gunmetal_zipper_ykk.jpg?format=300w">
+          Gunmetal (Standard)
         </option>
-        <option value="Black">
+        <option value="Black" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a319fc8f9619ac59d3630b7/5a4e9c850852296d708bf913/1516816305394/black_zipper_ykk.jpg?format=300w">
           Black
         </option>
       </select>
     </div>
   </div>
+  <br>
+  <h2>3. Choose Your Lining</h2>
+<p class="descp">
+  
+  Choose from a variety of colored, patterned and quilted linings to best compliment your unique sense of style. 
+</p>
   <div class="variant-option">
     <div class="variant-select-wrapper">
-      <select name="lining">
-        <option value="">
-          Select Lining
+      <select class="ddslick" name="lining">
+        <option value="Red" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a31a4a4e4966bbc8e3a9f95/5a31a4c5c83025917ec97423/1513208418468/red_fabric.jpg?format=300w">
+          Solid Red
         </option>
-        <option value="Red">
-          Red
+        <option selected="selected" value="Black" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a31a4a4e4966bbc8e3a9f95/5a31a4af53450a88db493b17/1513208426054/black_fabric.jpg?format=300w">
+          Solid Black (Standard)
         </option>
-        <option value="Black">
-          Black
+        <option value="Gold" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a31a4a4e4966bbc8e3a9f95/5a31a4af8165f5f917a44bee/1513208431056/gold_fabric.jpg?format=300w">
+          Solid Gold
         </option>
-        <option value="Gold">
-          Gold
+        <option value="Gray" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a31a4a4e4966bbc8e3a9f95/5a6f41c3ec212d260561eafe/1517240784516/gray_fabric.jpg?format=300w">
+          Solid Gray
         </option>
-        <option value="Gray">
-          Gray
+        <option value="Purple" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a31a4a4e4966bbc8e3a9f95/5a31a4b8c83025917ec971b2/1513208437868/purple_fabric.jpg?format=300w">
+          Solid Purple
         </option>
-        <option value="Purple">
-          Purple
-        </option>
-        <option value="Quilted Blue">
+        <option value="Quilted Blue" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a31a4a4e4966bbc8e3a9f95/5a6f41c7652dea61da87e415/1517240792601/quilted_blue.jpg?format=300w">
           Quilted Blue
         </option>
-        <option value="Quilted Grey">
+        <option value="Quilted Grey" data-imagesrc="https://static1.squarespace.com/static/5a1f1ac7692ebe0a5a866859/5a31a4a4e4966bbc8e3a9f95/5a31a4c1652deac1e8eda2c1/1513208449701/quilted_gray_fabric.jpg?format=300w">
           Quilted Grey
         </option>
       </select>
     </div>
   </div>
-  <input class="emailtrack" name="email" placeholder="Enter your email so we can contact you" type="text">
-  <input class="designtext" name="design" placeholder="Describe the design changes you'd like" type="text">
+  <br>
+<h2>4. Describe any Design Changes You'd Like</h2>
+<p>
+Individual design changes can be performed for $10 per change. Changes may include zipper location/number, pocket location/number, type of pockets, wrist adjustment, ribbed cotton locations, collar type, stud locations & any other details you can think of!
+</p>
+  <input class="designtext" name="design" placeholder="Describe any design changes you would like, $10 per change" type="text">
+  <br>
+  <input class="emailtrack" name="email" placeholder="Enter your email for order confirmation" type="text">
+  <br><br>
+<h2>
+  5. Tally Your Design Changes and Select Your Leather Type
+</h2>
+<p>
+<b><i>Cowhide:</i></b>: Stiff, durable, and takes time to break-in. Provides serious protection and attitude.
+  <br/>
+  <b><i>Goatskin</i></b>: Lighter than cow leather and nearly as durable. Worn famously by bomber pilots in WWII for warmth and protection.
+  <br/>
+<b><i>Lambskin</i></b>: Incredibly soft and buttery smooth. Typical choice for modern fashion jackets. Drapes well on the body and takes very little time to break-in.
+</p>
 </form>
 <script>
+  var options = {};
   window.addEventListener("DOMContentLoaded", function() {
     var submit = document.getElementsByClassName('sqs-add-to-cart-button-inner');
     var form = $('#extraformemail');
 
     for (var i=0; i<submit.length; i++) {
       submit[i].addEventListener("click", function() {
+        $.each(form.serializeArray(), function(_, kv) {
+  			options[kv.name] = kv.value;
+		});
         $.ajax({
           url: '//formspree.io/hobohm.business@gmail.com',
           method: 'POST',
-          data: form.serialize(),
+          data: options,
           dataType: 'json'
         });
       });
     }
+    $('.ddslick').each(function(index) {
+      var name = $(this).attr("name");
+      $(this).ddslick({
+      	width: '300px',
+        onSelected: function(selectedData) {
+          console.log(selectedData.selectedData.value);
+          options[name] = selectedData.selectedData.value;
+        }
+      });
+    });
   });
-</script>
+  </script></center>
